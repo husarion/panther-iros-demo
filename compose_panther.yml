@@ -1,0 +1,60 @@
+services:
+  luxonis:
+    image: husarion/depthai:humble-2.7.4-20230830
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      - ./config/camera.yaml:/ros2_ws/install/depthai_ros_driver/share/depthai_ros_driver/config/camera.yaml
+    device_cgroup_rules:
+      - 'c 189:* rmw'
+    network_mode: host
+    ipc: host
+    command: ros2 launch depthai_ros_driver camera.launch.py 
+
+  bridge:
+    image: husarion/ros:galactic-ros1-bridge
+    network_mode: host
+    ipc: host
+    environment:
+      - ROS_IP=10.15.20.3
+      - ROS_MASTER_URI=http://10.15.20.2:11311
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_fastrtps_cpp}
+    command: ros2 run ros1_bridge dynamic_bridge --bridge-all-1to2-topics
+  # TODO
+
+  foxglove:
+    image: husarion/foxglove:humble-add-panther
+    volumes:
+      - ./config/foxglove.json:/src/FoxgloveDefaultLayout.json
+      - ./config/panther_ouster.urdf:/src/panther.urdf
+    environment:
+      - FOXGLOVE_PORT=8080
+      - ROSBRIDGE_PORT=9090
+    ports:
+      - 8080:8080
+
+# TODO add ros-humble-tf2-msgs
+  rosbridge:
+    # image: husarion/rosbridge-server:humble-tf2-msgs
+    image: husarion/rosbridge-server:humble
+    network_mode: host
+    ipc: host
+    ports:
+      - 9090:9090
+    command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml max_message_size:=50000000 use_compression:=true
+  
+  ouster-lidar:
+    image: ouster_ros2
+    container_name: ouster-ros
+    network_mode: host
+    ipc: host
+    command: >
+      ros2 launch ouster_ros sensor.composite.launch.xml
+        timestamp_mode:=TIME_FROM_ROS_TIME
+        metadata:=/ouster_metadata.json
+        viz:=false
+        sensor_hostname:=10.15.20.10
+        lidar_mode:=512x10
+        
+# sensor_frame:=base_link
+
