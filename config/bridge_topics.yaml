@@ -1,0 +1,20 @@
+topics:
+  -
+    topic: /panther/odometry/filtered  # Topic name on both ROS 1 and ROS 2
+    type: nav_msgs/msg/Odometry  # Type of topic to bridge
+    queue_size: 10  # Queue size
+  
+  -
+    topic: /cmd_vel
+    type: geometry_msgs/msg/Twist
+    queue_size: 10
+  
+  -
+    topic: /tf
+    type: geometry_msgs/msg/Twist
+    queue_size: 10
+  
+  -
+    topic: /tf_static
+    type: geometry_msgs/msg/Twist
+    queue_size: 10
