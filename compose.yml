@@ -19,9 +19,6 @@ services:
       - ROS_IP=10.15.20.3
       - ROS_MASTER_URI=http://10.15.20.2:11311
     command: ros2 run ros1_bridge dynamic_bridge --bridge-all-1to2-topics
-  #   volumes:
-  #     - ./config/bridge_topics.yaml:/bridge_topics.yaml
-  #   command: bash -c "rosparam load /bridge_topics.yaml && ros2 run ros1_bridge parameter_bridge"
 
   foxglove:
     image: husarion/foxglove:humble-add-panther
@@ -34,7 +31,6 @@ services:
     ports:
       - 8080:8080
 
-# TODO add ros-humble-tf2-msgs
   rosbridge:
     image: husarion/rosbridge-server:humble-1.3.1-20230831
     <<: *net-config
@@ -42,7 +38,6 @@ services:
       - 9090:9090
     command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml max_message_size:=50000000 use_compression:=true
   
-  # TODO 
   ouster-lidar:
     image: husarion/ouster:humble-0.10.2-20230831
     <<: *net-config
@@ -53,6 +48,4 @@ services:
         viz:=false
         sensor_hostname:=10.15.20.10
         lidar_mode:=512x10
-        
-# sensor_frame:=base_link
-
+        sensor_frame:=ouster_os1_32_link
