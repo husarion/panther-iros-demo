@@ -3,13 +3,13 @@
     "3D!1zudscd": {
       "cameraState": {
         "perspective": true,
-        "distance": 5.839780486771145,
-        "phi": 67.92458560021021,
-        "thetaOffset": -7.452830183892215,
+        "distance": 8.36240670437608,
+        "phi": 58.86798182662426,
+        "thetaOffset": -26.320754712194194,
         "targetOffset": [
-          -0.07648441322370665,
-          0.6732410180142848,
-          -7.694402184081014e-17
+          1.0426503874011923,
+          1.629957260286504,
+          -7.468567253674038e-18
         ],
         "target": [
           0,
@@ -27,7 +27,7 @@
         "far": 5000
       },
       "followMode": "follow-pose",
-      "followTf": "base_link",
+      "followTf": "odom",
       "scene": {
         "transforms": {
           "showLabel": false,
@@ -165,18 +165,23 @@
       "transformMarkers": false,
       "zoom": 1
     },
-    "ImageViewPanel!3shhkb0": {
-      "cameraTopic": "/ouster/signal_image",
-      "enabledMarkerTopics": [],
-      "mode": "fit",
-      "pan": {
-        "x": 0,
-        "y": 0
-      },
-      "rotation": 0,
-      "synchronize": false,
-      "transformMarkers": false,
-      "zoom": 1
+    "Plot!1g3xy7v": {
+      "paths": [
+        {
+          "value": "/panther/battery.percentage",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": true,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240,
+      "foxglovePanelTitle": "Plot"
     }
   },
   "globalVariables": {},
@@ -188,7 +193,7 @@
     "first": "3D!1zudscd",
     "second": {
       "first": "ImageViewPanel!38o2hu0",
-      "second": "ImageViewPanel!3shhkb0",
+      "second": "Plot!1g3xy7v",
       "direction": "column"
     },
     "direction": "row",
